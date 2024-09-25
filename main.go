@@ -10,8 +10,8 @@ import (
 	"os"
 	"syscall"
 
+	"github.com/things-go/go-socks5"
 	"golang.org/x/sys/unix"
-	"tailscale.com/net/socks5"
 )
 
 func main() {
@@ -50,9 +50,9 @@ func main() {
 		},
 	}
 
-	s := socks5.Server{
-		Dialer: dialer.DialContext,
-	}
+	s := socks5.NewServer(
+		socks5.WithDial(dialer.DialContext),
+	)
 
 	// Create SOCKS5 proxy on localhost port 8000
 	for {
